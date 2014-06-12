@@ -1,0 +1,1233 @@
+var iBot = {}
+
+iBot.versao = "v1.4.8";
+iBot.credito = "-TheMars";
+
+iBot.status = {
+     grabou: "off",
+     chato: "off",
+     entradastaff: "off",
+     listae: "-",
+     ciclodj: "-",
+     cmdslink: "http://goo.gl/Koy0Fe",
+     fandel: "off",
+     cargosdel: "on",
+     historico: "on",
+     rdjpromo: "off",
+     autoskip: "on",
+}
+
+iBot.roleta = {
+                roletaStatus: false,
+                participants: [],
+                countdown : null,
+                startroleta: function(){
+                    iBot.roleta.roletaStatus = true;
+                    iBot.roleta.countdown = setTimeout(function(){ iBot.roleta.endroleta(); }, 60 * 1000);
+                    API.sendChat(":white_check_mark: A roleta foi iniciada! Digite !entrar para participar!");
+                },
+                endroleta: function(){
+                    iBot.roleta.roletaStatus = false;
+                    var ind = Math.floor(Math.random() * iBot.roleta.participants.length);
+                    var winner = iBot.roleta.participants[ind];
+                    iBot.roleta.participants = [];
+                    var pos = 1;
+                    var user = API.getUser(winner);
+                    var name = user.username;
+                    API.sendChat("A roleta acabou e um vencedor foi escolhido! @" + name + " :warning:");
+                    setTimeout(function(winner){
+                        API.moderateMoveDJ(winner, pos, false);
+                    }, 1*1000, winner, pos);
+
+     },
+}
+
+iBot.maxlength = 330;
+
+
+iBot.joined = new Date().getTime();
+
+//                   -TheMars
+iBot.adm = ["52cf2674877b92213e46e85d","5314bbc6877b927d669846c6"];
+
+iBot.relogar = function(data){
+     API.off(API.USER_JOIN, StaffEntrou);
+     API.off(API.DJ_ADVANCE, ups);
+     API.off(API.CHAT, Comandos);
+     API.off(API.CHAT, afk);
+     API.off(API.CURATE_UPDATE, grabou);
+     API.off(API.VOTE_UPDATE, chato);
+     API.off(API.CHAT, bChat2);
+     API.off(API.CHAT, fandelete);
+     API.off(API.CHAT, pão);
+     API.off(API.CHAT, brioco);
+     API.off(API.USER_JOIN, rdjpromo);
+     API.off(API.USER_JOIN, welcome);
+     API.off(API.DJ_ADVANCE, AWB);
+     API.off(API.DJ_ADVANCE, lengthCheck);
+     API.off(API.USER_LEAVE, leave2);
+     API.off(API.USER_JOIN, user2);
+     API.off(API.CHAT, antilinks);
+     API.sendChat(":white_check_mark: iBot reiniciado com sucesso!");
+     setTimeout (function(){
+          API.moderateDeleteChat(data.chatID);
+     }
+     ,1600);
+     setTimeout (function(){
+          $.getScript("http://pastebin.com/raw.php?i=bEpzj9d1");
+     }
+     , 1000);
+}
+
+iBot.desligar = function(data){
+     API.off(API.USER_JOIN, StaffEntrou);
+     API.off(API.DJ_ADVANCE, ups);
+     API.off(API.CHAT, afk);
+     API.off(API.CHAT, Comandos);
+     API.off(API.CURATE_UPDATE, grabou);
+     API.off(API.VOTE_UPDATE, chato);
+     API.off(API.CHAT, bChat2);
+     API.off(API.CHAT, fandelete);
+     API.off(API.CHAT, pão);
+     API.off(API.CHAT, brioco);
+     API.off(API.USER_JOIN, rdjpromo);
+     API.off(API.USER_JOIN, welcome);
+     API.off(API.DJ_ADVANCE, AWB);
+     API.off(API.DJ_ADVANCE, lengthCheck);
+     API.off(API.USER_LEAVE, leave2);
+     API.off(API.USER_JOIN, user2);
+     API.off(API.CHAT, antilinks);
+     API.sendChat("iBot está agora offline! :warning:");
+     setTimeout (function(){
+          API.moderateDeleteChat(data.chatID);
+     }
+     ,1600);
+}
+
+iBot.newbot = function(data){
+     API.sendChat(":white_check_mark: Versão alterada com sucesso!");
+     API.off(API.USER_JOIN, StaffEntrou);
+     API.off(API.DJ_ADVANCE, ups);
+     API.off(API.CHAT, afk);
+     API.off(API.CHAT, Comandos);
+     API.off(API.CURATE_UPDATE, grabou);
+     API.off(API.VOTE_UPDATE, chato);
+     API.off(API.CHAT, bChat2);
+     API.off(API.CHAT, pão);
+     API.off(API.CHAT, brioco);
+     API.off(API.CHAT, fandelete);
+     API.off(API.USER_JOIN, rdjpromo);
+     API.off(API.USER_JOIN, welcome);
+     API.off(API.DJ_ADVANCE, AWB);
+     API.off(API.DJ_ADVANCE, lengthCheck);
+     API.off(API.USER_LEAVE, leave2);
+     API.off(API.USER_JOIN, user2);
+     API.off(API.CHAT, antilinks);
+     setTimeout (function(){
+          API.moderateDeleteChat(data.chatID);
+     }
+     ,1600);
+     setTimeout (function(){
+          $.getScript("http://pastebin.com/raw.php?i=S6kSWjuf");
+     }
+     , 1000);
+}
+
+iBot.ingles = function(data){
+     API.off(API.USER_JOIN, StaffEntrou);
+     API.off(API.DJ_ADVANCE, ups);
+     API.off(API.CHAT, afk);
+     API.off(API.CHAT, Comandos);
+     API.off(API.CURATE_UPDATE, grabou);
+     API.off(API.VOTE_UPDATE, chato);
+     API.off(API.CHAT, bChat2);
+     API.off(API.CHAT, pão);
+     API.off(API.CHAT, brioco);
+     API.off(API.CHAT, fandelete);
+     API.off(API.USER_JOIN, rdjpromo);
+     API.off(API.USER_JOIN, welcome);
+     API.off(API.DJ_ADVANCE, AWB);
+     API.off(API.DJ_ADVANCE, lengthCheck);
+     API.off(API.USER_LEAVE, leave2);
+     API.off(API.USER_JOIN, user2);
+     API.off(API.CHAT, antilinks);
+     API.sendChat(":white_check_mark: Language changed successfully!");
+     setTimeout (function(){
+          API.moderateDeleteChat(data.chatID);
+     }
+     ,1600);
+     setTimeout (function(){
+          $.getScript("http://pastebin.com/raw.php?i=DDGZbkUq");
+     }
+     , 1000);
+}
+
+function ups(a){
+     if(iBot.status.historico == "on"){
+          var h = API.getHistory(),
+          n = API.getNextMedia();
+          var dj = API.getDJ().id;
+          var pos = 1;
+          for(i = h.length; -- i;)
+          {
+               if(h[i].media.id === a.media.id)
+               {
+                    API.sendChat("@"+API.getDJ().username+", seu vídeo está no histórico, pulando...");
+                    API.moderateForceSkip();
+                    API.moderateMoveDJ(dj, pos, true);
+               }
+          }
+     }
+}
+
+iBot.load = function(){
+    toSave = JSON.parse(localStorage.getItem("iBotSave"));
+    iBot.settings = toSave.settings;
+    ruleSkip = toSave.ruleSkip;
+};
+
+iBot.save = function(){localStorage.setItem("iBotSave", JSON.stringify(toSave))};
+
+iBot.loadStorage = function(){
+    if(localStorage.getItem("iBotSave") !== null){
+        iBot.load();
+    }else{
+        iBot.save();
+    }
+};
+
+function getUserID(username) {
+     var users = API.getUsers();
+     for (var i in users) {
+          if (users[i].username == username) {
+               return users[i].id;
+          }
+     }
+     return "Usuário não encontrado!";
+}
+
+var waitlist = API.getWaitList();
+dc = {
+}
+
+
+for (var i in waitlist) {
+     dc[waitlist[i].username] = waitlist[i].wlIndex + 1;
+}
+
+var userData = {
+}
+var usersinroom = API.getUsers();
+for(var i in usersinroom) {
+     userData[usersinroom[i].id] = {
+          username: usersinroom[i].username,
+          muted: false
+     }
+}
+
+function user2(user) {
+     userData[user.id] = {
+          username: user.username,
+          muted: false
+     }
+}
+
+function leave2(user) {
+     delete userData[user.id];
+}
+
+function Comandos(data) {
+     var msg = data.message;
+     var ccmd = msg.substring(1).split(' ');
+     var arg1 = msg.split(" ")[1];
+     var arg2 = msg.split(" ")[2];
+     var ID = data.fromID;
+     var nome = data.from;
+     var chat = data.chatID;
+     var userfrom = data.from;
+     var userfromid = data.fromID;
+     var getpos = API.getWaitListPosition(userfromid);
+     
+     if (userData[data.fromID].mute === true) API.moderateDeleteChat(data.chatID);
+     if (msg.indexOf("!") == 0 || msg.indexOf(".") == 0 ) {
+          API.moderateDeleteChat(chat);
+     }
+      
+      
+     if(data.message.indexOf('!') === 0){
+          switch(ccmd[0].toLowerCase()){
+
+               //Staff
+               //Permissões: 1 = Bouncer, 2 = Manager, 3 = CoHost
+               case "rel":
+               if(API.getUser(ID).permission > 3 || iBot.adm.indexOf(ID) > -1) {
+                    iBot.relogar(data);
+               }
+               else{
+
+                    API.sendChat("@"+nome+", Você não tem permissão para usar este comando! [+Coanfitrião]");
+               }
+               break;
+               case "desligar":
+               if(API.getUser(ID).permission > 3 || iBot.adm.indexOf(ID) > -1) {
+                    iBot.desligar(data);
+               }
+               else{
+                    API.sendChat("@"+nome+", Você não tem permissão para usar este comando! [+Coanfitrião]");
+               }
+               break;
+               case "newbot":
+               if(API.getUser(ID).permission > 3 || iBot.adm.indexOf(ID) > -1) {
+                    iBot.newbot(data);
+               }
+               else{
+                    API.sendChat("@"+nome+", Você não tem permissão para usar este comando! [+Coanfitrião]");
+               }
+               break;
+               case "rdjpromo":
+               if(API.getUser(ID).permission > 3 || iBot.adm.indexOf(ID) > -1) {
+                    if (arg1 === "on") {
+                         iBot.status.rdjpromo = "on";
+                         API.sendChat("DJ Residente para os que entrarem na sala [Ativado]");
+                    }
+                    if (arg1 === "off") {
+                         iBot.status.rdjpromo = "off";
+                         API.sendChat("DJ Residente para os que entrarem na sala [Desativado]");
+                    }
+               }
+               else{
+                    API.sendChat("@" + data.from + ", você não tem permissão para usar este comando.[+ Co anfitrião]");
+               }
+               iBot.save();
+               break;
+
+               case "allrdj":
+               if(API.getUser(ID).permission > 3 || iBot.adm.indexOf(ID) > -1) {
+                    if (arg1 === "on") {
+                         allusers = API.getUsers();
+                         for (var i = 0; i < allusers.length; i++) {
+                              if(API.getUsers(allusers[i].id).permission > -1){
+                                   API.moderateSetRole(allusers[i].id, API.ROLE.RESIDENTDJ);
+                              }
+                         }
+                         API.sendChat("DJ Residente a todos [Ativado]");
+                    }
+                    if (arg1 === "off") {
+                         allusers = API.getUsers();
+                         for (var i = 0; i < allusers.length; i++) {
+                              if(API.hasPermission(allusers[i].id, API.ROLE.RESIDENTDJ)) {
+                                   API.moderateSetRole(allusers[i].id, API.ROLE.NONE);
+                              }
+                         }
+                         iBot.status.rdjpromo = "off";
+                         API.sendChat("DJ Residente a todos [Desativado]");
+                    }
+               }
+               else{
+                    API.sendChat("@" + data.from + ", você não tem permissão para usar este comando.[+ Co anfitrião]");
+               }
+               iBot.save();
+               break;
+               case "travar":
+               if(API.getUser(ID).permission > 1  || iBot.adm.indexOf(ID) > -1) {
+                    iBot.trava();
+               }
+               else{
+                    API.sendChat("@"+nome+", Você não tem permissão para usar este comando! [+Segurança]");
+               }
+               break;
+
+               case "destravar":
+               if(API.getUser(ID).permission > 1  || iBot.adm.indexOf(ID) > -1) {
+                    iBot.destrava();
+               }
+               else{
+                    API.sendChat("@"+nome+", Você não tem permissão para usar este comando! [+Segurança]");
+               }
+               break;
+
+               case "pular":
+               if(API.getUser(ID).permission > 1  || iBot.adm.indexOf(ID) > -1) {
+                    iBot.pula();
+               }
+               else{
+                    API.sendChat("@"+nome+", Você não tem permissão para usar este comando! [+Segurança]");
+               }
+               break;
+
+               case "ciclo":
+               if(API.getUser(ID).permission > 1  || iBot.adm.indexOf(ID) > -1) {
+                    var toggle = $(".cycle-toggle");
+                    if(toggle.hasClass("disabled")) {
+                         toggle.click();
+                    }
+                    else{
+                         toggle.click();
+                    }
+               }
+               else{
+
+                    API.sendChat("@"+nome+", Você não tem permissão para usar este comando! [+Segurança]");
+               }
+               break;
+
+               case "limparlista":
+               if(API.getUser(ID).permission > 2  || iBot.adm.indexOf(ID) > -1) {
+                    iBot.limparl();
+               }
+               else{
+
+                    API.sendChat("@"+nome+", Você não tem permissão para usar este comando! [+Coordenador]");
+
+               }
+               break;
+
+               case "set":
+               if(API.getUser(ID).permission > 2  || iBot.adm.indexOf(ID) > -1) {
+                    if(arg1 == "chato"){
+                         if(arg2 == "on"){
+                              API.sendChat("Notificações de Chatos ativada!");
+                              iBot.status.chato = "on";
+                         }
+                         if(arg2 == "off"){
+                              API.sendChat("Notificações de Chatos desativada!");
+                              iBot.status.chato = "off";
+                         }
+                    }
+                    if(arg1 == "add"){
+                         if(arg2 == "on"){
+                              API.sendChat("Notificações de Adds ativada!");
+                              iBot.status.grabou = "on";
+                         }
+                         if(arg2 == "off"){
+                              API.sendChat("Notificações de Adds desativada!");
+                              iBot.status.grabou = "off";
+                         }
+                    }
+                    if(arg1 == "botafk"){
+                         if(arg2 == "on"){
+                              API.sendChat("O bot agora está afk!");
+                              iBot.status.afk = "on";
+                         }
+                         if(arg2 == "off"){
+                              API.sendChat("O bot deixou de está afk!");
+                              iBot.status.afk = "off";
+                         }
+                    }
+                    if(arg1 == "language"){
+                         if(arg2 == "en"){
+                         iBot.ingles(data);
+                         }
+                    }
+                    if(arg1 == "antilinks"){
+                         if(arg2 == "on"){
+                              API.sendChat("Antilinks ativado!");
+                              iBot.status.antilinks = "on";
+                         }
+                         if(arg2 == "off"){
+                              API.sendChat("Antilinks desativado!");
+                              iBot.status.antilinks = "off";
+                         }
+                    }
+                    if(arg1 == "welcome"){
+                         if(arg2 == "on"){
+                              API.sendChat("Mensagem de boas-vindas ativada!");
+                              iBot.status.welcome = "on";
+                         }
+                         if(arg2 == "off"){
+                              API.sendChat("Mensagem de boas-vindas desativada!");
+                              iBot.status.welcome = "off";
+                         }
+                    }
+                    if(arg1 == "entradastaff"){
+                         if(arg2 == "on"){
+                              API.sendChat("Notificações de Entrada de Staff ativada!");
+                              iBot.status.entradastaff = "on";
+                         }
+                         if(arg2 == "off"){
+                              API.sendChat("Notificações de Entrada de Staff desativada!");
+                              iBot.status.entradastaff = "off";
+                         }
+                    }
+                    if(arg1 == "mendigos"){
+                         if(arg2 == "on"){
+                              API.sendChat("Anti-Mendigos ativado!");
+                              iBot.status.fandel = "on";
+                         }
+                         if(arg2 == "off"){
+                              API.sendChat("Anti-Mendigos desativado!");
+                              iBot.status.fandel = "off";
+                         }
+                    }
+                    if(arg1 == "cargos"){
+                         if(arg2 == "on"){
+                              API.sendChat("Anti-Mendigos de cargo ativado!");
+                              iBot.status.cargosdel = "on";
+                         }
+                         if(arg2 == "off"){
+                              API.sendChat("Anti-Mendigos de cargo desativado!");
+                              iBot.status.cargosdel = "off";
+                         }
+                    }
+                    if(arg1 == "historico"){
+                         if(arg2 == "on"){
+                              API.sendChat("Histórico de vídeos ativado!");
+                              iBot.status.historico = "on";
+                         }
+                         if(arg2 == "off"){
+                              API.sendChat("Histórico de vídeos desativado!");
+                              iBot.status.historico = "off";
+                         }
+                    }
+                    if(arg1 == "tempo"){
+                         if(arg2 == "on"){
+                              API.sendChat("Tempo de vídeos ativado!");
+                              iBot.status.autoskip = "on";
+                         }
+                         if(arg2 == "off"){
+                              API.sendChat("Tempo de vídeos desativado!");
+                              iBot.status.autoskip = "off";
+                         }
+                    }
+                    if(arg1 == "maxlength"){
+                    iBot.maxlength = msg.split(" ")[2];
+                    API.sendChat("Tempo máximo de vídeos alterado para: "+ iBot.maxlength);
+                   }
+               }
+               else{
+
+                    API.sendChat("@"+nome+", Você não tem permissão para usar este comando! [+Coordenador]");
+               }
+               iBot.save();
+               break;
+               case "f5":
+               if(API.getUser(ID).permission > 3 || iBot.adm.indexOf(ID) > -1) {
+                    iBot.f5();
+               }
+               else{
+
+                    API.sendChat("@"+nome+", Você não tem permissão para usar este comando! [+Coanfitrião]");
+               }
+               break;
+
+               case "limparchat":
+               case "clearchat":
+               case "clear":
+               if(API.getUser(ID).permission > 2  || iBot.adm.indexOf(ID) > -1) {
+                    iBot.limparchat();
+                    API.sendChat("["+ data.from +"] Limpou o chat! :warning:");
+               }
+               else{
+
+                    API.sendChat("@"+nome+", Você não tem permissão para usar este comando! [+Coordenador]");
+               }
+               break;
+
+               case "bloqchat":
+               if(API.getUser(ID).permission > 2  || iBot.adm.indexOf(ID) > -1) {
+                    if(arg1 == "on"){
+                         iBot.status.bloqchat = "on";
+                         API.sendChat("Chat bloqueado!");
+                         bblockChat = true;
+                    }
+                    if(arg1 == "off"){
+                         iBot.status.bloqchat = "off";
+                         API.sendChat("Chat desbloqueado!");
+                         bblockChat = false;
+                    }
+               }
+               else{
+
+                    API.sendChat("@" + data.from + ", Você não tem permissão para usar este comando! [+Coordenador]");
+               }
+               iBot.save();
+               break;
+
+               case "diz":
+               var sayMsg = data.message.substr(5).trim();
+               API.sendChat(sayMsg);
+               break;
+
+               case "add":
+               if(API.getUser(ID).permission > 1  || iBot.adm.indexOf(ID) > -1) {
+                    var username = msg.substr(msg.indexOf('@')+1);
+                    var userid = getUserID(username);
+                    API.moderateAddDJ(userid);
+               }
+               else{
+
+                    API.sendChat("@" + data.from + ", Você não tem permissão para usar este comando! [+Segurança]");
+               }
+               break;
+               case "remover":
+               if(API.getUser(ID).permission > 1  || iBot.adm.indexOf(ID) > -1) {
+                    var username = msg.substr(msg.indexOf('@')+1);
+                    var userid = getUserID(username);
+                    API.moderateRemoveDJ(userid);
+               }
+               else{
+
+                    API.sendChat("@" + data.from + ", Você não tem permissão para usar este comando! [+Segurança]");
+               }
+               break;
+               case "kick":
+               if(API.getUser(ID).permission > 1  || iBot.adm.indexOf(ID) > -1) {
+                    var messkick = data.message;
+                    var splitkick = messkick.split("@");
+                    var userskick = API.getUsers();
+                    for(var i in userskick) {
+                         if (userskick[i].username == splitkick[1]) {
+                              var userkick = userskick[i].id;
+                              API.sendChat("[" + data.from + "] @" + splitkick[1] + " Você será kickado em 5 segundos.")
+                              setTimeout(function(){
+                                   API.moderateBanUser(userkick, 1, API.BAN.HOUR)
+                              }
+                              , 5000);
+                              setTimeout(function(){
+                                   API.moderateUnbanUser(userkick)
+                              }
+                              , 8000);
+                              setTimeout(function(){
+                                   API.moderateUnbanUser(userkick)
+                              }
+                              , 12000);
+                         }
+                    }
+               }
+               else{
+
+                    API.sendChat("@" + data.from + ", Você não tem permissão para usar este comando! [+Segurança]");
+               }
+               break;
+               case "banir":
+               if(API.getUser(ID).permission > 2  || iBot.adm.indexOf(ID) > -1) {
+                    var username = msg.substr(msg.indexOf('@')+1);
+                    var userid = getUserID(username);
+                    API.moderateBanUser(userid, 0, API.BAN.PERMA);
+               }
+               else{
+
+                    API.sendChat("@" + data.from + ", Você não tem permissão para usar este comando.[+Coordenador]");
+               }
+               break;
+               case "desbanir":
+               if(API.getUser(ID).permission > 2  || iBot.adm.indexOf(ID) > -1) {
+                    var username = msg.substr(msg.indexOf('@')+1);
+                    var userid = getUserID(username);
+                    API.moderateUnbanUser(userid);
+               }
+               else{
+
+                    API.sendChat("@" + data.from + ", Você não tem permissão para usar este comando! [+Coordenador]");
+               }
+               break;
+               case "rdj":
+               if(API.getUser(ID).permission > 2  || iBot.adm.indexOf(ID) > -1) {
+                    var username = msg.substr(msg.indexOf('@')+1);
+                    var userid = getUserID(username);
+                    API.moderateSetRole(userid, API.ROLE.RESIDENTDJ);
+               }
+               else{
+
+                    API.sendChat("@" + data.from + ", Você não tem permissão para usar este comando! [+Coordenador]");
+               }
+               break;
+               case "bouncer":
+               if(API.getUser(ID).permission > 2  || iBot.adm.indexOf(ID) > -1) {
+                    var username = msg.substr(msg.indexOf('@')+1);
+                    var userid = getUserID(username);
+                    API.moderateSetRole(userid, API.ROLE.BOUNCER);
+               }
+               else{
+
+                    API.sendChat("@" + data.from + ", Você não tem permissão para usar este comando! [+Coodenador]");
+               }
+               break;
+               case "manager":
+               if(API.getUser(ID).permission > 3 || iBot.adm.indexOf(ID) > -1) {
+                    var username = msg.substr(msg.indexOf('@')+1);
+                    var userid = getUserID(username);
+                    API.moderateSetRole(userid, API.ROLE.MANAGER);
+               }
+               else{
+
+                    API.sendChat("@" + data.from + ", Você não tem permissão para usar este comando! [+Coanfitrião]");
+               }
+               break;
+               case "recargo":
+               if(API.getUser(ID).permission > 3 || iBot.adm.indexOf(ID) > -1) {
+                    var username = msg.substr(msg.indexOf('@')+1);
+                    var userid = getUserID(username);
+                    API.moderateSetRole(userid, API.ROLE.NONE);
+               }
+               else{
+
+                    API.sendChat("@" + data.from + ", Você não tem permissão para usar este comando! [+Coanfitrião]");
+               }
+               break;
+               case "mutar":
+               if(API.getUser(ID).permission > 1  || iBot.adm.indexOf(ID) > -1) {
+                    var msg = data.message.split("@");
+                    var user = msg[1];
+                    var users = API.getUsers();
+                    for (var i in users) {
+                         if (users[i].username == user) {
+                              userData[users[i].id].mute = true;
+                              API.sendChat("[" + data.from + "] mutou o usuário @" + user);
+                         }
+                    }
+               }
+               else {
+
+                    API.sendChat("@" + data.from + ", Você não tem permissão para usar este comando! [+Segurança]");
+               }
+               iBot.save();
+               break;
+               case "desmutar":
+               if(API.getUser(ID).permission > 1  || iBot.adm.indexOf(ID) > -1) {
+                    var msg = data.message.split("@");
+                    var user = msg[1];
+                    var users = API.getUsers();
+                    for (var i in users) {
+                         if (users[i].username == user) {
+                              userData[users[i].id].mute = false;
+                              API.sendChat("[" + data.from + "] desmutou o usuário @" + user);
+                         }
+                    }
+               }
+               else {
+
+                    API.sendChat("@" + data.from + ", Você não tem permissão para usar este comando! [+Segurança]");
+               }
+               break;
+               case "stat":
+               if(API.getUser(ID).permission > 1  || iBot.adm.indexOf(ID) > -1) {
+                    var response = "";
+                    var currentTime = new Date().getTime();
+                    var minutes = Math.floor((currentTime - iBot.joined) / 60000);
+                    var hours = 0;
+                    while(minutes > 60){
+                         minutes = minutes - 60;
+                         hours++;
+                    }
+                    hours == 0 ? response = "Iniciado há " + minutes + "m " : response = "Iniciado há " + hours + "h " + minutes + "m";
+                    response = response + " | Versão: "+ iBot.versao;
+                    response = response + " | Criado por: "+ iBot.credito;
+                    response = response + " | Lista: "+ iBot.status.listae;
+                    response = response + " | Ciclo: " + iBot.status.ciclodj;
+                    response = response + " | Mendigos: " + iBot.status.fandel;
+                    response = response + " | Mendigos de Cargos: " + iBot.status.cargosdel;
+                    response = response + " | Histórico: " + iBot.status.historico;
+                    response = response + " | Tempo vídeos: " + iBot.status.autoskip;
+                    response = response + " | RDJ Promo: " + iBot.status.rdjpromo;
+                    response = response + " | Entrada Staff: "+ iBot.status.entradastaff;
+                    response = response + " | Add: "+ iBot.status.grabou;
+                    response = response + " | Chato: "+ iBot.status.chato;
+                    API.sendChat(response);
+               }
+               else{
+
+                    API.sendChat("@" + data.from + ", Você não tem permissão para usar este comando! [+Segurança]");
+               }
+               break;
+
+
+               //Usuários
+               case "eta":
+               var rem = API.getTimeRemaining();
+               var wlPos = API.getWaitListPosition(data.fromID);
+               var tempoRes;  
+               if( wlPos === -1 )
+              {
+              tempoRes = (210*(wlPos+1)) + rem;
+              API.sendChat('['+ data.from +'] Entre na lista de espera antes de usar o !eta :warning:');
+     }
+     else
+     {
+          tempoRes = (210*wlPos)+rem;
+    
+          if(tempoRes < "6")
+          {
+          }
+          else{
+               API.sendChat("["+ data.from +"] Você será o dj em: " + SecondsToHMS(tempoRes)); 
+               }
+               }
+               break;
+
+               case "id":
+               API.sendChat("@"+ data.from +" Seu ID é: "+ data.fromID);
+               break;
+               
+               case "comandos":
+               case "commands":
+               case "cmds":
+               API.sendChat("["+ data.from +"] Clique no link para ver os comandos do bot: "+ iBot.status.cmdslink);
+               break;
+
+               case "pontos":
+               iBot.pontos(data);
+               break;
+
+               case "legal":
+               API.sendChat("@"+ data.from +" gostou do seu video @"+ API.getDJ().username +", continue assim!");
+               break;
+
+               case "chato":
+               API.sendChat("@"+ data.from +" não gostou do seu video @"+ API.getDJ().username +", melhore na próxima! :-1:");
+               break;
+
+               case "entrar":
+               var lista = API.getWaitListPosition(data.fromID);
+               if(lista === -1){
+               API.sendChat("@"+ data.from +" entre na lista para poder participar da roleta! :warning:");
+               }else{
+               if(iBot.roleta.roletaStatus){
+               iBot.roleta.participants.push(data.fromID);
+               }
+               }
+               break;
+              
+               case "sair":
+               var ind = iBot.roleta.participants.indexOf(data.fromID);
+               if(ind > -1){
+               iBot.roleta.participants.splice(ind, 1);
+               API.sendChat("@" + data.from + " saiu da roleta! :warning:");
+               }
+               break;
+
+               case "roleta":
+               if(API.getUser(ID).permission > 2 || iBot.adm.indexOf(ID) > -1) {
+               if(!iBot.roleta.roletaStatus){
+               iBot.roleta.startroleta();
+               }
+               }else{
+               API.sendChat("@"+ data.from +" Você não tem permissão para usar este comando! [+Coordenador]");
+               }
+               break;
+
+               case "stoproleta":
+               if(API.getUser(ID).permission > 2 || iBot.adm.indexOf(ID) > -1) {
+               if(iBot.roleta.roletaStatus === true){
+               API.sendChat("A roleta foi parada :warning:");
+               iBot.roleta.roletaStatus = false;
+               clearTimeout(iBot.roleta.countdown);
+               }
+               }else{
+               API.sendChat("@"+ data.from +" Você não tem permissão para usar este comando! [+Coordenador]");
+               }
+               break;
+
+               case "link":
+               case "musica":
+               case "url":
+               iBot.linkm(data);
+               break;
+               case "autowoot":
+               API.sendChat("["+ data.from +"] Clique no link para aprender a como usar um autowoot: http://goo.gl/naCPwx");
+               break;
+               case "temas":
+               case "themes":
+               API.sendChat("["+ data.from +"] Clique no link para ver os temas permitidos: http://goo.gl/5uS4Lk");
+               break;
+               case "regras":
+               case "rules":
+               API.sendChat("["+ data.from +"] Clique no link para ver as regras da sala: http://goo.gl/XXjNOv");
+               break;
+               case "adblock":
+               API.sendChat("Para remover as propagandas dos videos use AdBlock > http://www.adblockplus.org/");
+               break;
+               case "blog":
+               case "site":
+               API.sendChat("["+ data.from +"] Clique no link para ver o nosso site: http://goo.gl/DN0uLa");
+               break;
+          }
+     }
+}
+//************************************************************************************
+users = {
+}
+getUserByName = function(name) {
+     for(var i in API.getUsers()) {
+          if (API.getUsers()[i].username === name.trim()) return API.getUsers()[i].id;
+     }
+}
+dcLookup = function(id) {
+     if(typeof users[id] !== 'undefined') API.sendChat(API.getUser(id).username + ' se desconectou à ~' + Math.round((Date.now() - users[id].time) / 60000) + ' minutos atrás na posição ' + (users[id].index + 1));
+}
+API.on(API.USER_LEAVE, function(data){
+     users[data.id] = {
+          id: data.id, index: data.wlIndex, time: Date.now()
+     }
+}
+)
+API.on(API.CHAT, function(data){
+     if (data.message.indexOf('!dc') === 0) dcLookup(getUserByName(data.message.substring(11)));
+}
+)
+//************************************************************************************
+//EntrouStaff
+function StaffEntrou(user){
+     if(iBot.status.entradastaff == "on"){
+          if (API.hasPermission(user.id, API.ROLE.ADMIN)) {
+               setTimeout (function(){
+                    API.sendChat(":sunglasses:Admin: @" + user.username + ", entrou na sala.");
+               }
+               , 1600);
+          }
+          else
+          if (API.hasPermission(user.id, API.ROLE.AMBASSADOR)) {
+               setTimeout (function(){
+                    API.sendChat(":sunglasses:Embaixador(a): @" + user.username + ", entrou na sala.");
+               }
+               , 1600);
+          }
+          else
+          if (API.hasPermission(user.id, API.ROLE.HOST)) {
+               setTimeout (function(){
+                    API.sendChat(":sunglasses:Anfitrião: @" + user.username + ", entrou na sala.");
+               }
+               , 1600);
+          }
+          else
+          if (API.hasPermission(user.id, API.ROLE.COHOST)) {
+               setTimeout (function(){
+                    API.sendChat(":sunglasses:Co-Anfitrião: @" + user.username + ", entrou na sala.");
+               }
+               , 1600);
+          }
+          else
+          if (API.hasPermission(user.id, API.ROLE.MANAGER)) {
+               setTimeout (function(){
+                    API.sendChat(":sunglasses:Coordenador(a): @" + user.username + ", entrou na sala.");
+               }
+               , 1600);
+          }
+          else
+          if (API.hasPermission(user.id, API.ROLE.BOUNCER)) {
+               setTimeout (function(){
+                    API.sendChat(":sunglasses:Segurança: @" + user.username + ", entrou na sala.");
+               }
+               , 1600);
+          }
+     }
+}
+
+function grabou(obj)
+{
+     if(iBot.status.grabou == "on"){
+          var song3 = API.getMedia().author + '  -  ' + API.getMedia().title;
+          API.sendChat("@" + obj.user.username + " adicionou o video: " + song3);
+     }
+}
+
+function chato(obj)
+{
+     if(iBot.status.chato == "on"){
+          var song2 = API.getMedia().author + '  -  ' + API.getMedia().title;
+          var vote = obj.vote == 1 ? "woot" : "meh";
+          if (vote == "meh")
+          {
+               API.sendChat("@" + obj.user.username + " votou Chato em: " + song2);
+          }
+     }
+}
+
+
+iBot.f5 = function(){
+     API.sendChat("Atualizando a página!");
+     setTimeout (function(){
+          location.reload(true);
+     }
+     , (1*1000));
+}
+
+iBot.limparchat = function(){
+     var messages = $('#chat-messages').children();
+     for (var i = 0; i < messages.length; i++) {
+          for (var j = 0; j < messages[i].classList.length;
+          j++) {
+               if (messages[i].classList[j].indexOf('cid-') == 0) {
+                    API.moderateDeleteChat(messages[i].classList[j].substr(4));
+                    break;
+               }
+          }
+     }
+}
+
+iBot.pula = function(){
+     var dj = API.getDJ().id;
+     var pos = 1;
+     API.moderateForceSkip();
+     API.moderateMoveDJ(dj, pos, true);
+}
+
+iBot.trava = function (){
+     iBot.status.listae = "travada";
+     API.moderateLockWaitList(true);
+}
+
+iBot.destrava = function (){
+     iBot.status.listae = "destravada";
+     API.moderateLockWaitList(false);
+}
+
+iBot.limparl = function(){
+     iBot.status.listae = "travada";
+     API.moderateLockWaitList(true, true);
+}
+
+iBot.pontos = function(data){
+     ID = data.fromID;
+     var fans = API.getUser(ID).fans;
+     var listenerPoints = API.getUser(ID).listenerPoints;
+     var curatorPoints = API.getUser(ID).curatorPoints;
+     var djPoints = API.getUser(ID).djPoints;
+     API.sendChat(":+1: " + listenerPoints + " | :musical_note: " + djPoints + " | :star: " + curatorPoints + " [" + data.from +"]");
+}
+
+iBot.linkm = function(data){
+     if(API.getMedia().format == 1){
+          API.sendChat("@" + data.from + " " + "http://youtu.be/" + API.getMedia().cid);
+     }
+     else{
+          var id = API.getMedia().cid;
+          SC.get('/tracks', {
+               ids: id,
+          }
+          , function(tracks) {
+               API.sendChat("@"+data.from+" "+tracks[0].permalink_url);
+          }
+          );
+     }
+}
+
+bblockChat = false;
+bblockChat = function( data )
+{
+     var id = data.fromID;
+     var msg = data.message;
+     if ( msg.indexOf( '' ) > - 1 )
+     {
+          API.moderateDeleteChat( data.chatID );
+     }
+}
+
+function bChat2( data )
+{
+     if ( bblockChat == true )
+     {
+          var id = data.fromID;
+          var msg = data.message;
+          if ( msg.indexOf( '' ) > - 1 )
+          {
+               API.moderateDeleteChat( data.chatID );
+          }
+     }
+}
+
+var wooting = true;
+wootSong();
+function AWB(obj){
+     wootSong();
+}
+
+function wootSong(){
+     if(wooting)
+     {
+          $("#woot").click();
+     }
+}
+
+iBot.fandel = ["vire meu fa",
+"fan back",
+"rt fa",
+"agora é seu fa",
+"retribuo fa",
+"seja meu fa",
+"fan for fan",
+"fan 4 fan",
+"f4f",
+"fan4fan",
+"fanback",
+"fanbot",
+"fan pls",
+"fan me",
+"quem vira meu fa",
+"vira meu fa",];
+
+iBot.cargosdel = ["me da cargo",
+"me coloca de adm",
+"me coloca na equipe",
+"me coloca na staff",
+"da cargo",
+"aumenta meu cargo",
+"me da adm",
+];
+
+iBot.alink = [
+".xvideos",
+".pornhub",
+".xnxx",
+"plug.dj/",
+".redtube",
+".brazzers",
+".sambaporno",
+"porno/",".porno/",".porno","-porno","porno-","-sexy",".sexy",
+"-sensual",".sensual",".playboy","bucetas.","-buceta","funk.","-funk","/porno","/sexy","sexo/",
+];
+
+iBot.pão = [
+"pão",
+];
+
+iBot.brioco = [
+"comer vagina",
+"sexo anal",
+"chupa uns cu",
+];
+
+iBot.afk = [
+"@iBot",
+];
+
+function antilinks(data){
+     if (iBot.status.antilinks === "on") {
+     msg = data.message.toLowerCase();
+
+     for(var i = 0; i < iBot.alink.length; i++){
+          if(msg.indexOf(iBot.alink[i].toLowerCase()) > -1){
+               API.moderateDeleteChat(data.chatID);
+               API.sendChat("@"+ data.from +" Não mande isso, aqui.");
+              }
+          }
+     }
+}
+
+function afk(data){
+     if (iBot.status.afk === "on") {
+     msg = data.message.toLowerCase();
+
+     for(var i = 0; i < iBot.afk.length; i++){
+          if(msg.indexOf(iBot.afk[i].toLowerCase()) > -1){
+               API.moderateDeleteChat(data.chatID);
+               API.sendChat("@"+ data.from +"  Desculpe não sou muito de conversar, trabalhando...");
+              }
+          }
+     }
+}
+
+function pão(data){
+     msg = data.message.toLowerCase();
+
+     for(var i = 0; i < iBot.pão.length; i++){
+          if(msg.indexOf(iBot.pão[i].toLowerCase()) > -1){
+               API.sendChat("@"+ data.from +" e morreu... :(");
+          }
+     }
+}
+
+function brioco(data){
+     msg = data.message.toLowerCase();
+
+     for(var i = 0; i < iBot.brioco.length; i++){
+          if(msg.indexOf(iBot.brioco[i].toLowerCase()) > -1){
+               API.sendChat("@"+ data.from +" chupa uns cú e pá! :trollface:");
+          }
+     }
+}
+          
+function fandelete(data){
+     if(iBot.status.fandel === "on"){
+          msg = data.message.toLowerCase();
+
+          for(var i = 0; i < iBot.fandel.length; i++){
+               if(msg.indexOf(iBot.fandel[i].toLowerCase()) > -1){
+                    API.moderateDeleteChat(data.chatID);
+                    API.sendChat("@" + data.from + " não mendigue fãs.");
+               }
+          }
+     }
+}
+function fandelete(data){
+     if(iBot.status.cargosdel === "on"){
+          msg = data.message.toLowerCase();
+
+          for(var i = 0; i < iBot.cargosdel.length;
+          i++){
+               if(msg.indexOf(iBot.cargosdel[i].toLowerCase()) > -1){
+                    API.moderateDeleteChat(data.chatID);
+                    API.sendChat("@" + data.from + " não mendigue cargos.");
+               }
+          }
+     }
+}
+
+function rdjpromo(user){
+     if (iBot.status.rdjpromo === "on") {
+          if (API.hasPermission(user.id, API.ROLE.BOUNCER)) {
+               setTimeout (function(){
+                    API.moderateSetRole(user.id, API.ROLE.BOUNCER);
+               }
+               ,1000);
+          }
+          else
+          if(API.getUser(user.id).permission > -1) {
+               setTimeout (function(){
+                    API.moderateSetRole(user.id, API.ROLE.RESIDENTDJ);
+               }
+               ,1000);
+          }
+
+     }
+}
+
+function welcome(user){
+                if (iBot.status.welcome === "on") {
+                 setTimeout (function(){
+                 API.sendChat("Olá " + "@" + user.username + ", bem-vindo.");
+                }, 1000);
+        }
+}
+
+
+function SecondsToHMS(d)
+{
+     d = Number(d);
+     var h = Math.floor(d / 3600);
+     var m = Math.floor(d % 3600 / 60);
+     var s = Math.floor(d % 3600 % 60);
+     return ((h > 0 ? (h >= 10 ? h : '0' + h): '00') + ':' + (m > 0 ? (m >= 10 ? m : '0' + m): '00') + ':' + (s > 0 ? (s >= 10 ? s : '0' + s): '00')  );
+}
+
+function lengthCheck(data) {
+     if(iBot.status.autoskip === "on"){
+          if (data.media.duration > iBot.maxlength) {
+               var currentSong = data.media.cid;
+               var dj = API.getDJ().id;
+               var pos = 1;
+               API.sendChat("@" + API.getDJ().username  + " seu vídeo ultrapassou o tempo máximo, consulte as regras da sala para isso não se repetir! :warning:");
+                         API.moderateForceSkip();
+                         API.moderateMoveDJ(dj, pos, true);
+          }
+     }
+}
+
+//Funções
+API.on(API.CHAT, antilinks);
+API.on(API.CHAT, afk);
+API.on(API.USER_JOIN, StaffEntrou);
+API.on(API.USER_JOIN, welcome);
+API.on(API.DJ_ADVANCE, ups);
+API.on(API.DJ_ADVANCE, lengthCheck);
+API.on(API.CHAT, Comandos);
+API.on(API.CURATE_UPDATE, grabou);
+API.on(API.VOTE_UPDATE, chato);
+API.on(API.CHAT, bChat2);
+API.on(API.CHAT, fandelete);
+API.on(API.CHAT, pão);
+API.on(API.CHAT, brioco);
+API.on(API.USER_JOIN, rdjpromo);
+API.on(API.DJ_ADVANCE, AWB);
+API.on(API.USER_LEAVE, leave2);
+API.on(API.USER_JOIN, user2);
